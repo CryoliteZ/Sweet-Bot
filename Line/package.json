@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "async": "^2.5.0",
+    "asyncawait": "^1.0.6",
     "dotenv": "^4.0.0",
     "express": "^4.15.3",
     "jquery": "^3.2.1",
