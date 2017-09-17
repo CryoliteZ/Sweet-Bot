@@ -1,3 +1,3 @@
+node_modules
+watson-workspace
 .env
-node_modules/*
-python-files/*

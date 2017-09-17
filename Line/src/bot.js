@@ -3,9 +3,13 @@ const bot_API = require('./botAPI');
 const message_objects = require('./messageObject');
 const watson = require('./watson');
 const chinese2num = require('./chinese2number');
-// const async = require("async");
-const backend = require('./backend');
-require('dotenv').config();
+const async = require("async");
+const get_data = require('./getData');
+
+require('dotenv').config()
+
+
+
 
 const bot = linebot({
 	channelId: process.env.CHANNEL_ID,
@@ -15,17 +19,19 @@ const bot = linebot({
 });
 
 
-backend.init();
+get_data.init();
+
 
 bot.on('message', function (event) {
 	var chat_id = event.source.userId;
+	console.log(chat_id);
 	switch (event.message.type) {
-		case 'text':   
-			msg = chinese2num.parse(event.message.text);	
-			watson.callWatsonAPI(msg, event);
-  
-    		
+		case 'text':    
+			msg = event.message.text.toLowerCase();
+			msg = chinese2num.parse(msg);
+			// event.reply(msg);
 			
+			watson.callMessageAPI(msg, event);
 			
 			
 			console.log(msg);
@@ -106,7 +112,7 @@ bot.on('beacon', function (event) {
 	event.reply('beacon: ' + event.beacon.hwid);
 });
 
-bot.listen('/webhook', process.env.PORT || 6699, function () {
+bot.listen('/webhook', process.env.PORT || 8089, function () {
 	console.log('LineBot is running.');
 });
 
