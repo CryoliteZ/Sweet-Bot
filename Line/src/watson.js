@@ -49,10 +49,17 @@ function callMessageAPI(response, event) {
     }
     // Checkout
     else if (context.orderSubmit) {
-        event.reply(orderSubmit(event));
+        orderSubmit(event)
+        event.reply(response.output.text);
 
     }
-    // event.reply(response.output.text);
+    else if(context.queue){
+        backend.displayQueue(event);
+        context.queue = false;
+    }
+    else {
+        event.reply(response.output.text);
+    }
 }
 
 function createEntity() {
@@ -89,7 +96,7 @@ function orderConfirm(entities, event) {
         var flag = true;
         for (var i = 0; i < cart.products.length; ++i) {
             if (cart.products[i].name == curProduct.name) {
-                cart.products[i].number +=curProduct.number;
+                cart.products[i].number += curProduct.number;
                 flag = false;
                 break;
             }
@@ -110,20 +117,34 @@ function orderConfirm(entities, event) {
         else if (entities[i].entity == "products") products.push(entities[i]);
     }
     var msg = "您確定要點";
-    var step = 0;
-    for (var i = 0; i < products.length; ++i) {
-        if (step < numbers.length) {
-            if (numbers[step].location[0] < products[i].location[0]) {
-                msg = msg + numbers[step].value + '份' + products[i].value + '和';
-                add2cart(products[i].value, parseInt(numbers[step].value));
-                step++;
+    // step method 1
+    // var step = 0;
+    // for (var i = 0; i < products.length; ++i) {
+    //     if (step < numbers.length) {
+    //         if (numbers[step].location[0] < products[i].location[0]) {
+    //             msg = msg + numbers[step].value + '份' + products[i].value + '和';
+    //             add2cart(products[i].value, parseInt(numbers[step].value));
+    //             step++;
 
-            }
-            else {
-                msg = msg + '1份' + products[i].value + '和';
-                add2cart(products[i].value, 1);
-            }
-        } else {
+    //         }
+    //         else {
+    //             msg = msg + '1份' + products[i].value + '和';
+    //             add2cart(products[i].value, 1);
+    //         }
+    //     } else {
+    //         msg = msg + '1份' + products[i].value + '和';
+    //         add2cart(products[i].value, 1);
+    //     }
+    // }
+    // msg = msg.substring(0, msg.length - 1) + '嗎？';
+
+    // step method 2
+    for (var i = 0; i < products.length; ++i) {
+        if (i < numbers.length) {
+            msg = msg + numbers[i].value + '份' + products[i].value + '和';
+            add2cart(products[i].value, parseInt(numbers[i].value));
+        }
+        else {
             msg = msg + '1份' + products[i].value + '和';
             add2cart(products[i].value, 1);
         }
@@ -131,18 +152,19 @@ function orderConfirm(entities, event) {
     msg = msg.substring(0, msg.length - 1) + '嗎？';
     console.log(msg);
     return msg;
- 
+
 
 
 }
 
-function orderSubmit(event) {  
-    for(var i = 0; i < cart.products.length; ++i){
-        if(cart.products[i].number == 0){
-            cart.products.splice( i, 1 );
+function orderSubmit(event) {
+    for (var i = 0; i < cart.products.length; ++i) {
+        if (cart.products[i].number == 0) {
+            cart.products.splice(i, 1);
         }
         backend.checkout(event, cart.products, '1a');
-    }    
+        cart.products = [];
+    }
 }
 
 
