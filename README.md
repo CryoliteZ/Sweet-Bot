@@ -7,16 +7,16 @@ Utilizing IBM Watson Assistant, cafe managers could take orders through simple M
 This project is funded by IBM Taiwan.
 
 ## Contact Line Bot 
-<img src ="https://qr-official.line.me/M/BG8sHhWSe6.png" height="100px">
+<img src ="https://i.imgur.com/Z4o9iQr.png" height="100px">
 
 Link: https://line.me/R/ti/p/BG8sHhWSe6
 
 ## IBM Watson Assistant
 
 ### Intents
-We had defined 5 intents, `#positive_reaction`, `#negative_reaction`, `#order`, `#checkout` and `#打招呼`
+We had defined 5 intents, `#positive_reaction`, `#negative_reaction`, `#order`, `#checkout` and `#打招呼`.
 
-Each intents corresponds to one kind of user's action or response
+Each intents corresponds to one kind of user's action or response.
 
 The bot will base on the `#intent` type to perform a specific action.
 
@@ -28,15 +28,20 @@ We imported the cafe menu and product names to our entity values database.
 From these values, IBM Watson Assistant could find out what kind of product the customer is looking for.
 
 ### Dialog
+
+We define the logics and levels of responses at the Dialog section. 
+
+The flow of the conversation and the keywords are defined here.
+
 <img src="https://i.imgur.com/jkWLGLf.png" height="500px">
 
-We define the logics and levels of responses at the Dialog section. The flow of the conversation and the keywords are defined here.
-
-<img src="https://i.imgur.com/uEgJNB8.png" height="400px">
 
 Here is an example for having a `#positive_reaction` when the users were asked about checking out or not.
 
 The assistant will grab the values of the number of products, and set `orderSubmit` to `true`. Then kindly replies that you have submited your order.
+
+<img src="https://i.imgur.com/uEgJNB8.png" height="400px">
+
 
 ### Demo 
 
