@@ -15,10 +15,11 @@ function login(params) {
     }
     request(options, function callback(err, res, body) {
         if (err) {
-            console.log(err);
+            console.log("backend down");
             return;
         } else {
-            console.log(body);
+            // console.log(res);
+            // console.log(body);
         }
     })
 
@@ -42,10 +43,11 @@ function checkout(event, orders, tableStr) {
     request(options, function callback(err, res, body) {
         console.log(res.statusCode);
         if (err) {
-            console.log(err);
+            console.log("backend down");
             return;
         } else {
-            console.log("success order", body);
+            // console.log(res);
+            console.log("success order");
 
         }
     })
@@ -64,10 +66,10 @@ function getProduct() {
 
     request(options, function callback(err, res, body) {
         if (err) {
-            console.log(err);
+            console.log("backend down");
             return;
         } else {
-            console.log(body);
+            // console.log(body);
         }
     })
 

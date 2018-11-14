@@ -1,6 +1,5 @@
 const linebot = require('linebot');
 const bot_API = require('./botAPI');
-const message_objects = require('./messageObject');
 const watson = require('./watson');
 const chinese2num = require('./chinese2number');
 // const async = require("async");
@@ -15,7 +14,7 @@ const bot = linebot({
 });
 
 
-backend.init();
+// backend.init();
 
 bot.on('message', function (event) {
 	var chat_id = event.source.userId;
@@ -23,26 +22,8 @@ bot.on('message', function (event) {
 		case 'text':   
 			msg = chinese2num.parse(event.message.text);	
 			watson.callWatsonAPI(msg, event);
-  
-    		
-			
-			
-			
 			console.log(msg);
 			break;
-			
-			
-				// 	event.reply(msg).then(function (data) {
-				// 		console.log('Success', msg, data);
-				// 	}).catch(function (error) {
-				// 		console.log('Error', error);
-				// 	});
-				// 	break;
-				// console.log('Success', msg, data);
-			
-			
-
-
 		case 'image':
 			console.log('got image');
 			event.reply({
@@ -68,11 +49,6 @@ bot.on('message', function (event) {
 			break;
 		case 'sticker':
 			console.log('got sticker');
-			event.reply(['信仰充值，抓穩了',{
-				type: 'sticker',
-				packageId: 3,
-				stickerId: 220
-			}]);
 			break;
 		default:
 			event.reply('Unknow message: ' + JSON.stringify(event));

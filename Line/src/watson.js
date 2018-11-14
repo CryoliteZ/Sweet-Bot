@@ -1,4 +1,4 @@
-var ConversationV1 = require('watson-developer-cloud/conversation/v1');
+var watson = require('watson-developer-cloud');
 var request = require('request');
 var backend = require('./backend');
 require('dotenv').config()
@@ -12,18 +12,20 @@ var cart = {
 };
 
 // Set up Conversation service wrapper.
-var conversation = new ConversationV1({
+var conversation = new watson.AssistantV1 ({
     username: process.env.WATSON_USERNAME, // replace with username from service key
     password: process.env.WATSON_PASSWORD, // replace with password from service key
-    path: { workspace_id: process.env.WATSON_WORKSPACE_ID }, // replace with workspace ID
-    version_date: '2016-07-11',
+    url: process.env.ASSISTANT_URL, // replace with workspace url
+    version: '2018-09-20',
 });
+
 
 
 function callWatsonAPI(msg, event) {
     conversation.message({
         "input": { 'text': msg },
         "context": context,
+        "workspace_id": process.env.WATSON_WORKSPACE_ID ,
     }, function (err, response) {
         if (err)
             console.log('error:', err);
@@ -46,13 +48,14 @@ function callMessageAPI(response, event) {
     // Order confirmataion
     if (context.orderConfirm) {
         event.reply(orderConfirm(entities));
+        
     }
     // Checkout
     else if (context.orderSubmit) {
         event.reply(orderSubmit(event));
 
     }
-    // event.reply(response.output.text);
+    event.reply(response.output.text);
 }
 
 function createEntity() {
