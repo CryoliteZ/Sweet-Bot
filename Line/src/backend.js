@@ -74,6 +74,25 @@ function getProduct() {
     })
 
 }
+function displayQueue(event) {
+    var options = {
+        method: 'GET',
+        url: process.env.SERVER_URL + '/pos/queue/',
+    }
+
+    request(options, function callback(err, res, body) {
+        if (err) {
+            console.log(err);
+            return;
+        } else {
+            var j = JSON.stringify(body, null, 2);
+            console.log(body['queue']);
+            
+            event.reply();
+        }
+    })
+
+}
 
 function init() {
     login();
@@ -83,4 +102,5 @@ function init() {
 exports.init = init
 exports.login = login
 exports.checkout = checkout
+exports.displayQueue = displayQueue
 exports.getProduct = getProduct
